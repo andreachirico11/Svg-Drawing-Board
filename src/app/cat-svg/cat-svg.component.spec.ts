@@ -2,15 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CatSvgComponent } from './cat-svg.component';
 
-describe('CatSvgComponent', () => {
+xdescribe('CatSvgComponent', () => {
   let component: CatSvgComponent;
   let fixture: ComponentFixture<CatSvgComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CatSvgComponent ]
-    })
-    .compileComponents();
+      declarations: [CatSvgComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
