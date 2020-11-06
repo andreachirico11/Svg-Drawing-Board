@@ -1,8 +1,5 @@
-import { AfterViewInit, Component } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-
 import { ImgDownloaderService } from './img-downloader.service';
-import { ImgFileType } from '../ultils/fileType';
 
 describe('ImgDownloaderService', () => {
   let service: ImgDownloaderService, testCanvas: HTMLCanvasElement;
@@ -24,7 +21,7 @@ describe('ImgDownloaderService', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [TestHostComponent],
+        declarations: [],
         providers: [ImgDownloaderService],
       })
         .compileComponents()
@@ -103,24 +100,3 @@ describe('ImgDownloaderService', () => {
    *
    */
 });
-
-@Component({
-  selector: 'test',
-  templateUrl: '../../assets/coronavirus.component.svg',
-})
-export class TestHostComponent implements AfterViewInit {
-  format: ImgFileType = 'png';
-  svgElement: SVGElement;
-
-  constructor(private dowloaderService: ImgDownloaderService) {}
-
-  ngAfterViewInit() {
-    this.svgElement = (document.getElementById(
-      'mySvg'
-    ) as unknown) as SVGElement;
-  }
-
-  download() {
-    // this.dowloaderService.downloadImg(this.svgElement, this.format, 'prova');
-  }
-}

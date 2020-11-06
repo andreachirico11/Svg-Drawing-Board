@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'svg-test',
   templateUrl: './coronavirus.component.svg',
 })
-export class SvgTestComponentComponent implements OnInit {
+export class SvgTestComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}

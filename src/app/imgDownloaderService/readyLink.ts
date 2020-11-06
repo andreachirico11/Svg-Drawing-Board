@@ -6,15 +6,22 @@ export class ReadyLink {
     this._anchor.href = href;
     this._anchor.style.display = 'none';
   }
+  // constructor(private href: string, private fileName = 'defaultName') {
+  //   const temp = document.createElement('a');
+  //   temp.download = fileName;
+  //   temp.href = href;
+  //   temp.style.display = 'none';
+  //   this._anchor = temp;
+  // }
   public get anchor(): HTMLAnchorElement {
     return this._anchor;
   }
   public download(): void {
-    document.body.appendChild(this.anchor);
-    this.anchor.click();
+    document.body.appendChild(this._anchor);
+    this._anchor.click();
     this.remove();
   }
   public remove(): void {
-    this.anchor.remove();
+    this._anchor.remove();
   }
 }
