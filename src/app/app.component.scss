@@ -1,15 +1,29 @@
 .mat-toolbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: max-content;
+  flex-direction: column;
+  margin-bottom: 2em;
 }
 
 .download-field mat-label {
-  font-size: small;
+  font-size: x-small;
 }
 
 .svg-drawing-board {
   display: flex;
   justify-content: center;
   padding: 5em;
+}
+
+@media (min-width: 500px) {
+  .mat-toolbar {
+    margin-bottom: 0;
+    flex-direction: row;
+  }
+
+  .download-field mat-label {
+    font-size: small;
+  }
 }
