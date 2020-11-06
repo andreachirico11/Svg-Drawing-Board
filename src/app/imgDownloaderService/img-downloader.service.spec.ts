@@ -11,11 +11,11 @@ describe('ImgDownloaderService', () => {
       'svg'
     ),
     sampleBlob = new Blob(['sample'], { type: 'text' }),
-    testSvgFileLocation = '/assets/coronavirus.component.svg';
+    testSvgFileLocation = '/assets/coronavirus.component.svg',
+    badSvgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
-  svgEl.setAttribute('width', '300');
-  svgEl.setAttribute('height', '300');
-
+  svgEl.setAttribute('width', '400');
+  svgEl.setAttribute('height', '400');
   /**
    *
    *
@@ -65,16 +65,19 @@ describe('ImgDownloaderService', () => {
       done();
     });
     service.imgLoader('asfhaskjdbakjc').catch((err: ErrorEvent) => {
-      expect(err.type).toEqual('error');
+      expect(err.type).toBe('imageLoadError');
       done();
     });
   });
 
   it('extractSvgDimension', () => {
-    console.log(svgEl);
     const { width, height } = service.extractSvgDimension(svgEl);
-    expect(width).toBe(300);
-    expect(height).toBe(300);
+    expect(width).toBe(400);
+    expect(height).toBe(400);
+    const badDimensions = service.extractSvgDimension(
+      document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    );
+    expect(badDimensions.width).toBe(300);
   });
 
   it('produces a correct Readylink object', (done) => {
@@ -84,6 +87,12 @@ describe('ImgDownloaderService', () => {
       expect(anchor.download).toBe('prova');
       expect(anchor.href.includes('jpeg')).toBeTruthy();
       done();
+    });
+  });
+
+  xit('handles correctly a loading img error', (done) => {
+    service.downloadLinkCreator(badSvgEl, 'jpeg', 'bad').catch((nullImg) => {
+      expect(nullImg).toBeNull();
     });
   });
 

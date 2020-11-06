@@ -7,6 +7,7 @@ import { ReadyLink } from './readyLink';
 })
 export class ImgDownloaderService {
   private actualUrl = window.URL || window.webkitURL || (window as any);
+  private imageLoadError = 'imageLoadError';
 
   async downloadLinkCreator(
     svg: SVGElement,
@@ -15,10 +16,31 @@ export class ImgDownloaderService {
   ): Promise<ReadyLink> {
     const { width, height } = this.extractSvgDimension(svg);
     const src = this.actualUrl.createObjectURL(this.blobCreator(svg));
-    const loadedImg = await this.imgLoader(src);
-    const canvas = this.canvasCreator(loadedImg, width, height);
-    const canvasDataUrl = this.canvasToDataUrl(canvas, fileType);
-    return new ReadyLink(canvasDataUrl, filename);
+    try {
+      const loadedImg = await this.imgLoader(src);
+      const canvas = this.canvasCreator(loadedImg, width, height);
+      const canvasDataUrl = this.canvasToDataUrl(canvas, fileType);
+      return new ReadyLink(canvasDataUrl, filename);
+    } catch (err) {
+      if ((err.type = this.imageLoadError)) {
+        alert(this.imageLoadError);
+      } else {
+        throw err;
+      }
+      return null;
+    }
+    // return this.imgLoader(src)
+    //   .then((loadedImg) => {
+    //     const canvas = this.canvasCreator(loadedImg, width, height);
+    //     const canvasDataUrl = this.canvasToDataUrl(canvas, fileType);
+    //     return new ReadyLink(canvasDataUrl, filename);
+    //   })
+    //   .catch((err) => {
+    //     if ((err.type = this.imageLoadError)) {
+    //       alert(this.imageLoadError);
+    //     }
+    //     return null;
+    //   });
   }
 
   imgLoader(src: string): Promise<HTMLImageElement> {
@@ -27,7 +49,9 @@ export class ImgDownloaderService {
       img.addEventListener('load', () => {
         res(img);
       });
-      img.addEventListener('error', rej);
+      img.addEventListener('error', (e) => {
+        rej(new ErrorEvent(this.imageLoadError));
+      });
       img.src = src;
     });
   }
@@ -65,9 +89,17 @@ export class ImgDownloaderService {
   }
 
   extractSvgDimension(svg: SVGElement): { width: number; height: number } {
+    let w = 300,
+      h = 300;
+    if (svg.attributes) {
+      if (svg.attributes.getNamedItem('width'))
+        w = Number(svg.attributes.getNamedItem('width').value);
+      if (svg.attributes.getNamedItem('height'))
+        h = Number(svg.attributes.getNamedItem('height').value);
+    }
     return {
-      width: Number(svg.attributes.getNamedItem('width').value),
-      height: Number(svg.attributes.getNamedItem('height').value),
+      width: w,
+      height: h,
     };
   }
 }
