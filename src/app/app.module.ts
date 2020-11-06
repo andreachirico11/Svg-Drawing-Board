@@ -9,18 +9,25 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CatSvgComponent } from './cat-svg/cat-svg.component';
+import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { SvgTestComponentComponent } from './svg-test-component/svg-test-component.component';
 
 @NgModule({
-  declarations: [AppComponent, CatSvgComponent],
+  declarations: [AppComponent, CatSvgComponent, MatDialogComponent, SvgTestComponentComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     MatToolbarModule,
     MatSelectModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatDialogModule,
   ],
   providers: [],
+  entryComponents: [MatDialogComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

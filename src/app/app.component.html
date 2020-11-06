@@ -1,16 +1,19 @@
 <mat-toolbar color="primary">
   <span>SVG drawer</span>
-  <form class="format-form">
-    <mat-form-field appearance="legacy">
+  <div class="download-field">
+    <mat-form-field appearance="legacy" required>
       <mat-label>Download format</mat-label>
-      <mat-select [(value)]="chosenFormat">
+      <mat-select #select="ngModel" [(ngModel)]="chosenFormat" required>
         <mat-option [value]="option" *ngFor="let option of formats">{{
           option
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-button>Download</button>
-  </form>
+    <button mat-button [disabled]="!select.valid" (click)="openDialog()">
+      Download
+    </button>
+  </div>
 </mat-toolbar>
-
-<app-cat-svg></app-cat-svg>
+<div class="svg-drawing-board">
+  <svg-test></svg-test>
+</div>

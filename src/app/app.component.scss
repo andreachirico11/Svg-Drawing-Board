@@ -4,7 +4,12 @@
   height: max-content;
 }
 
-.format-form {
-  height: 100%;
-  font-size: 0.8em;
+.download-field mat-label {
+  font-size: small;
+}
+
+.svg-drawing-board {
+  display: flex;
+  justify-content: center;
+  padding: 5em;
 }
