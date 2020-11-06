@@ -1,31 +1,24 @@
 import { Injectable } from '@angular/core';
 import { ImgFileType } from '../ultils/fileType';
+import { ReadyLink } from './readyLink';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImgDownloaderService {
-  URL = window.URL || window.webkitURL || (window as any);
+  private actualUrl = window.URL || window.webkitURL || (window as any);
 
-  constructor() {}
-
-  async downloadImg(
+  async downloadLinkCreator(
     svg: SVGElement,
     fileType: ImgFileType = 'png',
-    filename: string = 'defaultName'
-  ): Promise<void> {
+    filename: string
+  ): Promise<ReadyLink> {
     const { width, height } = this.extractSvgDimension(svg);
-    const src = this.objUrlCreator(this.blobCreator(svg));
+    const src = this.actualUrl.createObjectURL(this.blobCreator(svg));
     const loadedImg = await this.imgLoader(src);
     const canvas = this.canvasCreator(loadedImg, width, height);
     const canvasDataUrl = this.canvasToDataUrl(canvas, fileType);
-    const link = this.linkElementCreator(canvasDataUrl, filename);
-    document.body.appendChild(link);
-    if (confirm('download?')) {
-      link.click();
-    }
-    link.remove();
-    URL.revokeObjectURL(src);
+    return new ReadyLink(canvasDataUrl, filename);
   }
 
   imgLoader(src: string): Promise<HTMLImageElement> {
@@ -37,14 +30,6 @@ export class ImgDownloaderService {
       img.addEventListener('error', rej);
       img.src = src;
     });
-  }
-
-  linkElementCreator(href: string, fileName: string): HTMLAnchorElement {
-    const link = document.createElement('a');
-    link.download = fileName;
-    link.href = href;
-    link.style.display = 'none';
-    return link;
   }
 
   canvasCreator(
@@ -68,15 +53,6 @@ export class ImgDownloaderService {
     return new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
   }
 
-  objUrlCreator(elementToAttach: Blob): string {
-    // let URL = window.URL || window.webkitURL || (window as any);
-    return this.URL.createObjectURL(elementToAttach);
-  }
-
-  objectUrlRemover(url: string): void {
-    let URL = window.URL || window.webkitURL || (window as any);
-  }
-
   canvasToDataUrl(canvas: HTMLCanvasElement, imgFileType: ImgFileType): string {
     switch (imgFileType) {
       case 'jpeg':
@@ -95,14 +71,3 @@ export class ImgDownloaderService {
     };
   }
 }
-// //vecchio da buttare
-// imgLoader(src: string): Promise<HTMLImageElement> {
-//   return new Promise((res, rej) => {
-//     const img = new Image();
-//     img.onload = () => {
-//       res(img);
-//     };
-//     img.onerror = rej;
-//     img.src = src;
-//   });
-// }

@@ -1,34 +1,21 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  flushMicrotasks,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { CatSvgComponent } from '../cat-svg/cat-svg.component';
+import { AfterViewInit, Component } from '@angular/core';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ImgDownloaderService } from './img-downloader.service';
 import { ImgFileType } from '../ultils/fileType';
 
 describe('ImgDownloaderService', () => {
-  let service: ImgDownloaderService,
-    fixture: ComponentFixture<TestHostComponent>,
-    testCanvas: HTMLCanvasElement,
-    testSvgElement: SVGElement;
+  let service: ImgDownloaderService, testCanvas: HTMLCanvasElement;
   const svgEl: SVGElement = document.createElementNS(
       'http://www.w3.org/2000/svg',
       'svg'
     ),
     sampleBlob = new Blob(['sample'], { type: 'text' }),
     testSvgFileLocation = '/assets/coronavirus.component.svg';
+
+  svgEl.setAttribute('width', '300');
+  svgEl.setAttribute('height', '300');
+
   /**
    *
    *
@@ -37,16 +24,12 @@ describe('ImgDownloaderService', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [CatSvgComponent, TestHostComponent],
+        declarations: [TestHostComponent],
         providers: [ImgDownloaderService],
       })
         .compileComponents()
         .then(() => {
           service = TestBed.get(ImgDownloaderService);
-          fixture = TestBed.createComponent(TestHostComponent);
-          fixture.detectChanges();
-          testSvgElement = fixture.debugElement.query(By.css('svg'))
-            .nativeElement;
           testCanvas = service.canvasCreator(new Image(), 50, 50);
         });
     })
@@ -61,12 +44,6 @@ describe('ImgDownloaderService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('expect linkCreator to create a correct anchor tag', () => {
-    const link = service.linkElementCreator('provaprovaprova', 'prova');
-    expect(link.href.split('/')).toContain('provaprovaprova');
-    expect(link.download).toEqual('prova');
-  });
-
   it(
     'expect blobCreator to create a url',
     waitForAsync(() => {
@@ -78,22 +55,8 @@ describe('ImgDownloaderService', () => {
     })
   );
 
-  it('create objUrlCreator to create a correct object url', () => {
-    const completeUrl = document.location.href,
-      actualUrl = completeUrl.substring(0, completeUrl.lastIndexOf('/')) + '/',
-      blobUrl = service.objUrlCreator(sampleBlob);
-    expect(blobUrl.includes(actualUrl)).toBeTruthy();
-    expect(blobUrl.includes('blob')).toBeTruthy();
-  });
-
   it('create a canvas element', () => {
     expect(testCanvas.width).toBe(50);
-  });
-
-  it('canvasToDataUrl converts succesfully', () => {
-    expect(
-      service.canvasToDataUrl(testCanvas, 'webp').includes('data')
-    ).toBeTruthy();
   });
 
   it('imgLoader succesfully load real url and detects wrong ones', (done) => {
@@ -108,13 +71,20 @@ describe('ImgDownloaderService', () => {
   });
 
   it('extractSvgDimension', () => {
-    const { width, height } = service.extractSvgDimension(testSvgElement);
+    console.log(svgEl);
+    const { width, height } = service.extractSvgDimension(svgEl);
     expect(width).toBe(300);
     expect(height).toBe(300);
   });
 
-  it('downloadImg launched by the component', () => {
-    fixture.componentInstance.download();
+  it('produces a correct Readylink object', (done) => {
+    service.downloadLinkCreator(svgEl, 'jpeg', 'prova').then((resultedLInk) => {
+      const anchor = resultedLInk.anchor;
+      expect(anchor).toBeTruthy();
+      expect(anchor.download).toBe('prova');
+      expect(anchor.href.includes('jpeg')).toBeTruthy();
+      done();
+    });
   });
 
   /**
@@ -142,6 +112,6 @@ export class TestHostComponent implements AfterViewInit {
   }
 
   download() {
-    this.dowloaderService.downloadImg(this.svgElement, this.format, 'prova');
+    // this.dowloaderService.downloadImg(this.svgElement, this.format, 'prova');
   }
 }
