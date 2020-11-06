@@ -12,10 +12,15 @@ import { CatSvgComponent } from './cat-svg/cat-svg.component';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import { SvgTestComponentComponent } from './svg-test-component/svg-test-component.component';
+import { SvgTestComponent } from './svg-test-component/svg-test.component';
 
 @NgModule({
-  declarations: [AppComponent, CatSvgComponent, MatDialogComponent, SvgTestComponentComponent],
+  declarations: [
+    AppComponent,
+    CatSvgComponent,
+    MatDialogComponent,
+    SvgTestComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

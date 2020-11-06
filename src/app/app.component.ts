@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { ImgDownloaderService } from './imgDownloaderService/img-downloader.service';
+import { ReadyLink } from './imgDownloaderService/readyLink';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import { ImgFileType, imgFileValues } from './ultils/fileType';
 
@@ -14,14 +16,19 @@ import { ImgFileType, imgFileValues } from './ultils/fileType';
 })
 export class AppComponent {
   public formats = [...imgFileValues];
-  public chosenFormat = '';
+  public chosenFormat: ImgFileType;
   public dialogRef: MatDialogRef<MatDialogComponent>;
   public dialogConfig: MatDialogConfig = {
     height: 'fit-content',
     width: 'fit-content',
   };
-
-  constructor(private dialog: MatDialog) {}
+  @ViewChild('svgDrawingBoard', { static: false, read: ElementRef })
+  drawingBoard: ElementRef;
+  readyLinkObj: any;
+  constructor(
+    private dialog: MatDialog,
+    private imgDownloaderService: ImgDownloaderService
+  ) {}
 
   openDialog() {
     this.dialogConfig.data = this.chosenFormat;
@@ -29,7 +36,24 @@ export class AppComponent {
       .open(MatDialogComponent, this.dialogConfig)
       .afterClosed()
       .subscribe((yesOrNo) => {
-        alert(yesOrNo);
+        if (yesOrNo) {
+          this.readyLinkObj.download();
+        }
+        this.readyLinkObj.remove();
+        this.readyLinkObj = null;
+      });
+  }
+
+  extractImg() {
+    const svgEl = this.drawingBoard.nativeElement.firstChild.firstChild;
+    this.imgDownloaderService
+      .downloadLinkCreator(svgEl, this.chosenFormat, 'Prova')
+      .then((result: ReadyLink) => {
+        this.readyLinkObj = result;
+        this.openDialog();
+      })
+      .catch((err) => {
+        alert(err);
       });
   }
 }

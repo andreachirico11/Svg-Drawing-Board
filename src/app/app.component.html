@@ -9,11 +9,11 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-button [disabled]="!select.valid" (click)="openDialog()">
+    <button mat-button [disabled]="!select.valid" (click)="extractImg()">
       Download
     </button>
   </div>
 </mat-toolbar>
-<div class="svg-drawing-board">
+<div #svgDrawingBoard class="svg-drawing-board">
   <svg-test></svg-test>
 </div>
