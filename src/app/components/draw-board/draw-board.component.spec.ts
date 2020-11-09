@@ -12,7 +12,12 @@ fdescribe('DrawBoardComponent', () => {
     width,
     height,
     rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-
+  /**
+   *
+   *
+   *
+   *
+   */
   rect.setAttribute('x', '50');
   rect.setAttribute('y', '50');
   rect.setAttribute('width', '300');
@@ -35,9 +40,6 @@ fdescribe('DrawBoardComponent', () => {
         fixture.detectChanges();
         nativeElement = fixture.debugElement.queryAll(By.css('svg'))[0]
           .nativeElement;
-        nativeElement.style.marginLeft = 'auto';
-        nativeElement.style.marginRight = 'auto';
-        nativeElement.style.display = 'block';
         fixture.detectChanges();
       });
   });
@@ -62,11 +64,9 @@ fdescribe('DrawBoardComponent', () => {
   });
 
   xit('should track the position correctly', () => {
-    nativeElement.appendChild(rect);
-    fixture.detectChanges();
-    // const spy = spyOn(component, 'getMousePosition');
-    // rect.dispatchEvent(new MouseEvent('click'));
-    // expect(spy).toHaveBeenCalled();
+    const spy = spyOn(component, 'getMousePosition');
+    nativeElement.dispatchEvent(new MouseEvent('mousedown'));
+    expect(spy).toHaveBeenCalled();
   });
 
   xit('should track the stating point', () => {});
