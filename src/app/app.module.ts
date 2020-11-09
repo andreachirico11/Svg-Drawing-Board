@@ -8,11 +8,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CatSvgComponent } from './cat-svg/cat-svg.component';
-import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import { SvgTestComponent } from './svg-test-component/svg-test.component';
+import { CatSvgComponent } from './components/cat-svg/cat-svg.component';
+import { MatDialogComponent } from './components/mat-dialog/mat-dialog.component';
+import { SvgTestComponent } from './components/svg-test-component/svg-test.component';
 
 @NgModule({
   declarations: [

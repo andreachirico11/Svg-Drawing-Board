@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ImgFileType } from '../ultils/fileType';
+import { ImgFileType } from 'src/app/ultils/fileType';
 import { ReadyLink } from './readyLink';
 
 @Injectable({
@@ -29,18 +29,6 @@ export class ImgDownloaderService {
       }
       return null;
     }
-    // return this.imgLoader(src)
-    //   .then((loadedImg) => {
-    //     const canvas = this.canvasCreator(loadedImg, width, height);
-    //     const canvasDataUrl = this.canvasToDataUrl(canvas, fileType);
-    //     return new ReadyLink(canvasDataUrl, filename);
-    //   })
-    //   .catch((err) => {
-    //     if ((err.type = this.imageLoadError)) {
-    //       alert(this.imageLoadError);
-    //     }
-    //     return null;
-    //   });
   }
 
   imgLoader(src: string): Promise<HTMLImageElement> {

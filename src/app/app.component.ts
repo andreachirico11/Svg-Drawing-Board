@@ -4,9 +4,9 @@ import {
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ImgDownloaderService } from './imgDownloaderService/img-downloader.service';
-import { ReadyLink } from './imgDownloaderService/readyLink';
-import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
+import { MatDialogComponent } from './components/mat-dialog/mat-dialog.component';
+import { ImgDownloaderService } from './services/imgDownloaderService/img-downloader.service';
+import { ReadyLink } from './services/imgDownloaderService/readyLink';
 import { ImgFileType, imgFileValues } from './ultils/fileType';
 
 @Component({
