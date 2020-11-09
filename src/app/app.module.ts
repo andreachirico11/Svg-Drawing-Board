@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { CatSvgComponent } from './components/cat-svg/cat-svg.component';
 import { MatDialogComponent } from './components/mat-dialog/mat-dialog.component';
 import { SvgTestComponent } from './components/svg-test-component/svg-test.component';
+import { DrawBoardComponent } from './components/draw-board/draw-board.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SvgTestComponent } from './components/svg-test-component/svg-test.compo
     CatSvgComponent,
     MatDialogComponent,
     SvgTestComponent,
+    DrawBoardComponent,
   ],
   imports: [
     BrowserModule,
