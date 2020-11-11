@@ -1,7 +1,7 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -13,7 +13,7 @@ import {
   templateUrl: './draw-board.component.html',
   styleUrls: ['./draw-board.component.scss'],
 })
-export class DrawBoardComponent implements OnInit, OnDestroy {
+export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() width: number = 600;
   @Input() height: number = 600;
   viewPort: string;
@@ -31,10 +31,19 @@ export class DrawBoardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.calcolateViewPort();
     this.board = this.container.nativeElement.firstChild;
+  }
+
+  ngAfterViewInit() {
     this.eventsSubs = [
-      this.renderer.listen(this.board, this.mouseEvents[0], this.startDrag),
-      this.renderer.listen(this.board, this.mouseEvents[1], this.drag),
-      this.renderer.listen(this.board, this.mouseEvents[2], this.endDrag),
+      this.renderer.listen(this.board, this.mouseEvents[0], (ev) =>
+        this.startDrag(ev)
+      ),
+      this.renderer.listen(this.board, this.mouseEvents[1], (ev) =>
+        this.drag(ev)
+      ),
+      this.renderer.listen(this.board, this.mouseEvents[2], (ev) =>
+        this.endDrag(ev)
+      ),
     ];
   }
 
@@ -47,24 +56,31 @@ export class DrawBoardComponent implements OnInit, OnDestroy {
   calcolateViewPort() {
     this.viewPort = `0 0 ${this.width} ${this.height}`;
   }
+
   startDrag(event: MouseEvent) {
-    console.info('start');
-    let { x, y } = this.getMousePosition(event);
+    console.warn('start');
+    const realCoordinates = this.getMousePosition(event);
+    if (!realCoordinates) {
+      alert('Bad Starting Point');
+      return;
+    }
     this.drawStarted = true;
-    this.startPointX = x;
-    this.startPointY = y;
+    this.startPointX = realCoordinates.x;
+    this.startPointY = realCoordinates.y;
   }
+
   drag(event: MouseEvent) {
     if (this.drawStarted) {
-      console.info('move');
+      console.warn('drag');
       let { x, y } = this.getMousePosition(event);
       this.endPointX = x;
       this.endPointY = y;
     }
   }
+
   endDrag(event: MouseEvent) {
     if (this.drawStarted) {
-      console.info('end');
+      console.warn('end');
       this.drawStarted = false;
       let { x, y } = this.getMousePosition(event);
       this.endPointX = x;
@@ -74,10 +90,15 @@ export class DrawBoardComponent implements OnInit, OnDestroy {
   }
 
   getMousePosition(event: MouseEvent) {
+    console.log(event);
+
     let ctm = (event.target as SVGGraphicsElement).getScreenCTM();
-    return {
-      x: (event.clientX - ctm.e) / ctm.a,
-      y: (event.clientY - ctm.f) / ctm.d,
-    };
+    if (ctm) {
+      return {
+        x: (event.clientX - ctm.e) / ctm.a,
+        y: (event.clientY - ctm.f) / ctm.d,
+      };
+    }
+    return null;
   }
 }

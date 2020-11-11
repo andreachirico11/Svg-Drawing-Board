@@ -1,0 +1,22 @@
+.board-launcher-container {
+  padding: 2em 6em;
+  text-align: center;
+}
+
+.board-launcher-container-title {
+  font-size: x-large;
+}
+
+.board-launcher-slider {
+  width: 100%;
+  label {
+    display: block;
+  }
+  mat-slider {
+    min-width: 300px;
+  }
+}
+
+.board-launcher-container button {
+  width: 100%;
+}

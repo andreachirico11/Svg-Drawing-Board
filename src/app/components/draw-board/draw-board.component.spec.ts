@@ -1,17 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ImgDownloaderService } from 'src/app/services/imgDownloaderService/img-downloader.service';
 
 import { DrawBoardComponent } from './draw-board.component';
 
-fdescribe('DrawBoardComponent', () => {
+describe('DrawBoardComponent', () => {
   let component: DrawBoardComponent,
     nativeElement: SVGElement,
+    svgDebElem: DebugElement,
     fixture: ComponentFixture<DrawBoardComponent>,
     widthHeightExtractor = new ImgDownloaderService().extractSvgDimension,
     width,
     height,
-    rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect'),
+    ctm: SVGMatrix;
   /**
    *
    *
@@ -40,7 +43,9 @@ fdescribe('DrawBoardComponent', () => {
         fixture.detectChanges();
         nativeElement = fixture.debugElement.queryAll(By.css('svg'))[0]
           .nativeElement;
+        svgDebElem = fixture.debugElement.queryAll(By.css('svg'))[0];
         fixture.detectChanges();
+        ctm = (nativeElement as SVGGraphicsElement).getScreenCTM();
       });
   });
   /**
@@ -63,13 +68,27 @@ fdescribe('DrawBoardComponent', () => {
     expect(height).toBe(1000);
   });
 
-  xit('should track the position correctly', () => {
-    const spy = spyOn(component, 'getMousePosition');
-    nativeElement.dispatchEvent(new MouseEvent('mousedown'));
-    expect(spy).toHaveBeenCalled();
+  it('should launch the appropriate drag method', () => {
+    const spyStart = spyOn(svgDebElem.componentInstance, 'startDrag'),
+      spyDrag = spyOn(svgDebElem.componentInstance, 'drag'),
+      spyEnd = spyOn(svgDebElem.componentInstance, 'endDrag');
+    svgDebElem.triggerEventHandler('mousedown', {});
+    fixture.detectChanges();
+    expect(spyStart).toHaveBeenCalled();
+    svgDebElem.triggerEventHandler('mousemove', {});
+    fixture.detectChanges();
+    expect(spyDrag).toHaveBeenCalled();
+    svgDebElem.triggerEventHandler('mouseup', {});
+    fixture.detectChanges();
+    expect(spyEnd).toHaveBeenCalled();
   });
 
-  xit('should track the stating point', () => {});
+  xit('should track the stating point', () => {
+    const { e: xAxysAdder, f: yAxysAdder } = ctm;
+    svgDebElem.triggerEventHandler('mousedown', new Event('mousedown', {}));
+    fixture.detectChanges();
+    expect(component.startPointX + xAxysAdder).toBe(50);
+  });
 
   xit('should track the end point', () => {});
 });

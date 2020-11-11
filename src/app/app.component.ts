@@ -1,9 +1,16 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { DrawBoardComponent } from './components/draw-board/draw-board.component';
 import { MatDialogComponent } from './components/mat-dialog/mat-dialog.component';
 import { ImgDownloaderService } from './services/imgDownloaderService/img-downloader.service';
 import { ReadyLink } from './services/imgDownloaderService/readyLink';
@@ -22,12 +29,16 @@ export class AppComponent {
     height: 'fit-content',
     width: 'fit-content',
   };
+  public boardReady: boolean = false;
   @ViewChild('svgDrawingBoard', { static: false, read: ElementRef })
   drawingBoard: ElementRef;
+  @ViewChild('viewReference', { read: ViewContainerRef })
+  boardContainerRef: ViewContainerRef;
   readyLinkObj: any;
   constructor(
     private dialog: MatDialog,
-    private imgDownloaderService: ImgDownloaderService
+    private imgDownloaderService: ImgDownloaderService,
+    private componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
   openDialog() {
@@ -55,5 +66,14 @@ export class AppComponent {
       .catch((err) => {
         alert(err);
       });
+  }
+
+  addNewBoard() {
+    this.boardReady = true;
+    const boardCompRef = this.boardContainerRef.createComponent(
+      this.componentFactoryResolver.resolveComponentFactory(DrawBoardComponent)
+    );
+    boardCompRef.instance.width = 2000;
+    boardCompRef.instance.height = 50;
   }
 }
