@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Component,
   ComponentFactoryResolver,
@@ -15,12 +16,22 @@ import { MatDialogComponent } from './components/mat-dialog/mat-dialog.component
 import { ImgDownloaderService } from './services/imgDownloaderService/img-downloader.service';
 import { ReadyLink } from './services/imgDownloaderService/readyLink';
 import { ImgFileType, imgFileValues } from './ultils/fileType';
+=======
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
+>>>>>>> origin/master
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
+<<<<<<< HEAD
 export class AppComponent {
   public formats = [...imgFileValues];
   public chosenFormat: ImgFileType;
@@ -40,21 +51,18 @@ export class AppComponent {
     private imgDownloaderService: ImgDownloaderService,
     private componentFactoryResolver: ComponentFactoryResolver
   ) {}
+=======
+export class AppComponent implements AfterViewInit {
+  @ViewChild('svgDrawingBoard', { static: false, read: ElementRef })
+  drawingBoard: ElementRef;
+  constructor(private cdf: ChangeDetectorRef) {}
+>>>>>>> origin/master
 
-  openDialog() {
-    this.dialogConfig.data = this.chosenFormat;
-    this.dialog
-      .open(MatDialogComponent, this.dialogConfig)
-      .afterClosed()
-      .subscribe((yesOrNo) => {
-        if (yesOrNo) {
-          this.readyLinkObj.download();
-        }
-        this.readyLinkObj.remove();
-        this.readyLinkObj = null;
-      });
+  ngAfterViewInit() {
+    this.cdf.detectChanges();
   }
 
+<<<<<<< HEAD
   extractImg() {
     const svgEl = this.drawingBoard.nativeElement.firstChild.firstChild;
     this.imgDownloaderService
@@ -76,4 +84,7 @@ export class AppComponent {
     boardCompRef.instance.width = width;
     boardCompRef.instance.height = height;
   }
+=======
+  /////////////////////////
+>>>>>>> origin/master
 }

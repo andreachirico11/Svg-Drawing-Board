@@ -1,18 +1,8 @@
 <mat-toolbar color="primary">
   <span>SVG drawer</span>
-  <div class="download-field">
-    <mat-form-field appearance="legacy" required>
-      <mat-label>Download format</mat-label>
-      <mat-select #select="ngModel" [(ngModel)]="chosenFormat" required>
-        <mat-option [value]="option" *ngFor="let option of formats">{{
-          option
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-button [disabled]="!select.valid" (click)="extractImg()">
-      Download
-    </button>
-  </div>
+  <app-board-downloader-form
+    [drawingBoard]="drawingBoard"
+  ></app-board-downloader-form>
 </mat-toolbar>
 <div #svgDrawingBoard class="svg-drawing-board">
   <!-- <svg-test></svg-test> -->
