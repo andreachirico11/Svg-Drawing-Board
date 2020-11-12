@@ -7,10 +7,6 @@
   margin-bottom: 2em;
 }
 
-.download-field mat-label {
-  font-size: x-small;
-}
-
 .svg-drawing-board {
   display: flex;
   justify-content: center;
@@ -21,9 +17,5 @@
   .mat-toolbar {
     margin-bottom: 0;
     flex-direction: row;
-  }
-
-  .download-field mat-label {
-    font-size: small;
   }
 }
