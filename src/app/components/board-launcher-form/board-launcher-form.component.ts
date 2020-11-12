@@ -33,6 +33,14 @@ export class BoardLauncherFormComponent implements OnInit {
     this.calculateDimensions();
     this.widthSliderVal = this.min;
     this.heightSliderVal = this.min;
+
+    ////////////////testing
+    // setTimeout(() => {
+    //   this.widthSliderVal = 500;
+    //   this.heightSliderVal = 500;
+    //   this.addNew();
+    // }, 100);
+    /////////////
   }
 
   @Output() addNewEvent = new EventEmitter<{

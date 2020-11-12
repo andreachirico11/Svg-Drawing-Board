@@ -16,6 +16,7 @@ import {
 export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() width: number = 600;
   @Input() height: number = 600;
+  fill = 'blue';
   viewPort: string;
   board: SVGGraphicsElement;
   startPointX: number;

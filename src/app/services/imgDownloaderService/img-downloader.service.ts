@@ -14,6 +14,10 @@ export class ImgDownloaderService {
     fileType: ImgFileType = 'png',
     filename: string
   ): Promise<ReadyLink> {
+    console.log(svg);
+    svg.firstChild.textContent =
+      '<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />';
+
     const { width, height } = this.extractSvgDimension(svg);
     const src = this.actualUrl.createObjectURL(this.blobCreator(svg));
     try {

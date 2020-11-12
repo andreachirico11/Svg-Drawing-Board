@@ -32,7 +32,17 @@ export class BoardDownloaderFormComponent implements OnInit {
     private imgDownloaderService: ImgDownloaderService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    /////////////////////////////////testing
+    // setTimeout(() => {
+    //   this.chosenFormat = 'png';
+    //   this.extractImg();
+    //   setTimeout(() => {
+    //     this.readyLinkObj.download();
+    //   }, 100);
+    // }, 150);
+    ///////////////////////////////
+  }
 
   openDialog() {
     this.dialogConfig.data = this.chosenFormat;
@@ -55,7 +65,6 @@ export class BoardDownloaderFormComponent implements OnInit {
       .then((result: ReadyLink) => {
         this.readyLinkObj = result;
         this.openDialog();
-        console.log(result);
       })
       .catch((err) => {
         alert(err);
