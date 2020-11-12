@@ -6,6 +6,10 @@
     }}</mat-option>
   </mat-select>
 </mat-form-field>
-<button mat-button [disabled]="!select.valid" (click)="extractImg()">
+<button
+  mat-button
+  [disabled]="!(boardReady && select.valid)"
+  (click)="extractImg()"
+>
   Download
 </button>

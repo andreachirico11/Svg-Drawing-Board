@@ -16,6 +16,7 @@ import { MatDialogComponent } from '../mat-dialog/mat-dialog.component';
 })
 export class BoardDownloaderFormComponent implements OnInit {
   @Input() drawingBoard: ElementRef;
+  @Input() boardReady = false;
 
   public formats = [...imgFileValues];
   public chosenFormat: ImgFileType;
@@ -54,6 +55,7 @@ export class BoardDownloaderFormComponent implements OnInit {
       .then((result: ReadyLink) => {
         this.readyLinkObj = result;
         this.openDialog();
+        console.log(result);
       })
       .catch((err) => {
         alert(err);
