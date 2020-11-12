@@ -4,10 +4,10 @@ import {
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ImgDownloaderService } from 'src/app/imgDownloaderService/img-downloader.service';
-import { ReadyLink } from 'src/app/imgDownloaderService/readyLink';
-import { MatDialogComponent } from 'src/app/mat-dialog/mat-dialog.component';
+import { ImgDownloaderService } from 'src/app/services/imgDownloaderService/img-downloader.service';
+import { ReadyLink } from 'src/app/services/imgDownloaderService/readyLink';
 import { ImgFileType, imgFileValues } from 'src/app/ultils/fileType';
+import { MatDialogComponent } from '../mat-dialog/mat-dialog.component';
 
 @Component({
   selector: 'app-board-downloader-form',
