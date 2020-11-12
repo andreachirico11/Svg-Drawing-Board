@@ -1,0 +1,11 @@
+<mat-form-field appearance="legacy" required>
+  <mat-label>Download format</mat-label>
+  <mat-select #select="ngModel" [(ngModel)]="chosenFormat" required>
+    <mat-option [value]="option" *ngFor="let option of formats">{{
+      option
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<button mat-button [disabled]="!select.valid" (click)="extractImg()">
+  Download
+</button>
