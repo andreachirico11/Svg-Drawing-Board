@@ -1,4 +1,4 @@
-<mat-form-field appearance="legacy" required>
+<mat-form-field class="board-downloader-form" appearance="legacy" required>
   <mat-label>Download format</mat-label>
   <mat-select #select="ngModel" [(ngModel)]="chosenFormat" required>
     <mat-option [value]="option" *ngFor="let option of formats">{{

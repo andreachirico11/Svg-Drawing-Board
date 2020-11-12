@@ -1,0 +1,13 @@
+.board-downloader-form {
+  mat-label {
+    font-size: x-small;
+  }
+}
+
+@media (min-width: 500px) {
+  .board-downloader-form {
+    mat-label {
+      font-size: small;
+    }
+  }
+}
