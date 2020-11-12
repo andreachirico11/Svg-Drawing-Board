@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-board-launcher-form',
@@ -20,12 +26,24 @@ export class BoardLauncherFormComponent implements OnInit {
 
   calculateDimensions() {
     this.widthMax = window.innerWidth - 100;
-    this.heightMax = window.innerHeight - 400;
+    this.heightMax = window.innerHeight - 100;
   }
 
   ngOnInit(): void {
     this.calculateDimensions();
     this.widthSliderVal = this.min;
     this.heightSliderVal = this.min;
+  }
+
+  @Output() addNewEvent = new EventEmitter<{
+    width: number;
+    height: number;
+  }>();
+
+  addNew() {
+    this.addNewEvent.emit({
+      width: this.widthSliderVal,
+      height: this.heightSliderVal,
+    });
   }
 }

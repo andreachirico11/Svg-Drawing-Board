@@ -4,7 +4,7 @@
     <label for="widthSl">Width</label>
     <mat-slider
       id="widthSl"
-      [max]="widthSliderVal"
+      [max]="widthMax"
       [min]="min"
       [step]="step"
       [(ngModel)]="widthSliderVal"
@@ -24,5 +24,5 @@
     </mat-slider>
     <span>{{ heightSliderVal }}</span>
   </div>
-  <button mat-button>Add New</button>
+  <button mat-button (click)="addNew()">Add New</button>
 </div>

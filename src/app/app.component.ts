@@ -68,12 +68,12 @@ export class AppComponent {
       });
   }
 
-  addNewBoard() {
+  addNewBoard({ width, height }) {
     this.boardReady = true;
     const boardCompRef = this.boardContainerRef.createComponent(
       this.componentFactoryResolver.resolveComponentFactory(DrawBoardComponent)
     );
-    boardCompRef.instance.width = 2000;
-    boardCompRef.instance.height = 50;
+    boardCompRef.instance.width = width;
+    boardCompRef.instance.height = height;
   }
 }

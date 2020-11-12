@@ -18,5 +18,8 @@
   <!-- <svg-test></svg-test> -->
   <!-- <button *ngIf="!boardReady" (click)="addNewBoard()">Create New</button> -->
   <ng-template #viewReference></ng-template>
-  <app-board-launcher-form></app-board-launcher-form>
+  <app-board-launcher-form
+    *ngIf="!boardReady"
+    (addNewEvent)="addNewBoard($event)"
+  ></app-board-launcher-form>
 </div>
