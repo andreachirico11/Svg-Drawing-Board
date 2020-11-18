@@ -1,17 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule } from '@angular/forms';
 import { CatSvgComponent } from './components/cat-svg/cat-svg.component';
 import { MatDialogComponent } from './components/mat-dialog/mat-dialog.component';
 import { SvgTestComponent } from './components/svg-test-component/svg-test.component';
 import { DrawBoardComponent } from './components/draw-board/draw-board.component';
 import { BoardLauncherFormComponent } from './components/board-launcher-form/board-launcher-form.component';
-import { AngularMaterialModule } from './angular-material.module';
 import { BoardDownloaderFormComponent } from './components/board-downloader-form/board-downloader-form.component';
+import { ShapesModule } from './components/shapes/shapes.module';
+import { CommonsModule } from './commons.module';
 
 @NgModule({
   declarations: [
@@ -23,12 +21,7 @@ import { BoardDownloaderFormComponent } from './components/board-downloader-form
     BoardLauncherFormComponent,
     BoardDownloaderFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    AngularMaterialModule,
-  ],
+  imports: [CommonsModule, ShapesModule],
   providers: [],
   entryComponents: [MatDialogComponent],
   bootstrap: [AppComponent],

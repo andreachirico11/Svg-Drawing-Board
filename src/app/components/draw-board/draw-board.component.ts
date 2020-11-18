@@ -6,7 +6,10 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
+import { DrawerService } from 'src/app/services/drawerService/drawer.service';
 
 @Component({
   selector: 'app-draw-board',
@@ -27,7 +30,14 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   drawStarted = false;
   eventsSubs = [];
 
-  constructor(private container: ElementRef, private renderer: Renderer2) {}
+  @ViewChild('newSvgAppendRef', { read: ViewContainerRef })
+  appendRef: ViewContainerRef;
+
+  constructor(
+    private container: ElementRef,
+    private renderer: Renderer2,
+    private drawService: DrawerService
+  ) {}
 
   ngOnInit(): void {
     this.calcolateViewPort();
@@ -46,6 +56,8 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
         this.endDrag(ev)
       ),
     ];
+
+    this.drawService.drawComponent(this.appendRef);
   }
 
   ngOnDestroy() {
