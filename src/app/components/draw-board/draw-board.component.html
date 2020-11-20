@@ -1,3 +1,4 @@
+<ng-template #newSvgAppendRef></ng-template>
 <svg
   xmlns="http://www.w3.org/2000/svg"
   id="svgBoard"
@@ -13,5 +14,5 @@
     [attr.height]="'100%'"
   ></rect>
 
-  <ng-template #newSvgAppendRef></ng-template>
+  <ng-container *ngComponentOutlet="newSvgAppendRef"></ng-container>
 </svg>

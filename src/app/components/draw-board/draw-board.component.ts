@@ -1,3 +1,4 @@
+import { Template } from '@angular/compiler/src/render3/r3_ast';
 import {
   AfterViewInit,
   Component,
@@ -6,10 +7,13 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  TemplateRef,
   ViewChild,
   ViewContainerRef,
+  ViewRef,
 } from '@angular/core';
 import { DrawerService } from 'src/app/services/drawerService/drawer.service';
+import { LineComponent } from '../shapes/line/line.component';
 
 @Component({
   selector: 'app-draw-board',
@@ -30,8 +34,13 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   drawStarted = false;
   eventsSubs = [];
 
+  ngComponentToOutlet = null;
+
+  // @ViewChild('newSvgAppendRef', { read: TemplateRef })
+  // innerSvgViewContRef: TemplateRef<any>;
+
   @ViewChild('newSvgAppendRef', { read: ViewContainerRef })
-  appendRef: ViewContainerRef;
+  innerSvgViewContRef: ViewContainerRef;
 
   constructor(
     private container: ElementRef,
@@ -57,7 +66,9 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       ),
     ];
 
-    this.drawService.drawComponent(this.appendRef);
+    console.log(new LineComponent().shapeViewRef);
+    // this.ngComponentToOutlet = LineComponent.shapeViewRef;
+    this.drawService.drawComponent(this.innerSvgViewContRef);
   }
 
   ngOnDestroy() {

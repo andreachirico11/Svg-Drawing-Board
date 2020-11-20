@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 
 @Component({
   selector: 'line',
@@ -6,10 +12,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LineComponent implements OnInit {
   x1 = 0;
-  x2 = 0;
-  y1 = 50;
+  x2 = 50;
+  y1 = 0;
   y2 = 50;
   stroke = 'black';
+
+  @ViewChild('line', { read: TemplateRef, static: true })
+  shapeViewRef: TemplateRef<LineComponent>;
 
   constructor() {}
 
