@@ -1,15 +1,10 @@
-<!-- <ng-template> -->
-<!-- <line
-    attr.x1="x1"
-    attr.x2="x2"
-    attr.y1="y1"
-    attr.y2="y2"
-    attr.stroke="stroke"
-  ></line> -->
-<!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> -->
-<!-- </svg> -->
-<!-- </ng-template> -->
+<!-- <ng-template #line>
+  <svg:line x1="0" x2="40" y1="0" y2="40" stroke="red" stroke-width="5"></svg:line>
+</ng-template> -->
+
 
 <ng-template #line>
-  <line x1="0" x2="40" y1="0" y2="40" stroke="red" stroke-width="5"></line>
+  <svg:line [attr.x1]="x1" [attr.x2]="x2" [attr.y1]="y1" [attr.y2]="y2" [attr.stroke]="stroke"
+    [attr.stroke-width]="strokeWidth">
+  </svg:line>
 </ng-template>

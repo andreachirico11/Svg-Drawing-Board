@@ -1,4 +1,7 @@
-<ng-template #newSvgAppendRef></ng-template>
+<!-- <ng-template #shapesComponent>
+  <ng-template #newSvgAppendRef></ng-template>
+</ng-template> -->
+
 <svg
   xmlns="http://www.w3.org/2000/svg"
   id="svgBoard"
@@ -14,5 +17,16 @@
     [attr.height]="'100%'"
   ></rect>
 
-  <ng-container *ngComponentOutlet="newSvgAppendRef"></ng-container>
+  <ng-container>
+    <ng-template #newSvgAppendRef></ng-template>
+  </ng-container>
+
+  <!-- <ng-container *ngTemplateOutlet="shapesComponent"></ng-container> -->
 </svg>
+
+<!-- <svg:rect
+  [attr.fill]="'red'"
+  [attr.width]="'50%'"
+  [attr.height]="'50%'"
+  [attr.x]="'20px'"
+></svg:rect> -->

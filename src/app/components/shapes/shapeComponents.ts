@@ -1,3 +1,3 @@
 import { LineComponent } from './line/line.component';
 
-export type ShapeComponents = LineComponent;
+export type ShapeComponentType = LineComponent;

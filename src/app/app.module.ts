@@ -11,6 +11,7 @@ import { BoardDownloaderFormComponent } from './components/board-downloader-form
 import { ShapesModule } from './components/shapes/shapes.module';
 import { CommonsModule } from './commons.module';
 import { LineComponent } from './components/shapes/line/line.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { LineComponent } from './components/shapes/line/line.component';
     BoardLauncherFormComponent,
     BoardDownloaderFormComponent,
   ],
-  imports: [CommonsModule, ShapesModule],
+  imports: [CommonModule, CommonsModule, ShapesModule],
   providers: [], // spostarlo nell'entry del suo modulo
   entryComponents: [MatDialogComponent, LineComponent],
   bootstrap: [AppComponent],

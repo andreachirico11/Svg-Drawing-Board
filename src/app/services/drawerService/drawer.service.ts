@@ -1,46 +1,76 @@
+import { ComponentType } from '@angular/cdk/portal';
 import {
-  ComponentFactory,
   ComponentFactoryResolver,
-  ComponentRef,
   Injectable,
-  TemplateRef,
+  Injector,
   ViewContainerRef,
-  ViewRef,
 } from '@angular/core';
+import { start } from 'repl';
 import { LineComponent } from 'src/app/components/shapes/line/line.component';
-import { ShapeComponents } from 'src/app/components/shapes/shapeComponents';
+import { ShapeComponentType } from 'src/app/components/shapes/shapeComponents';
+import { Coordinates } from 'src/app/ultils/coordinates';
+import { ShapeType } from 'src/app/ultils/shapeType';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DrawerService {
-  private chosenComponentFactory: ComponentFactory<ShapeComponents>; // metterci un type con tutte le forme
-  private actualComponent;
+  private drownComponents: ShapeComponentType[] = [];
+  private componentUnderDrawing: ShapeComponentType = null;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   public drawComponent(
+    selectedShape: ShapeType,
     svgTarget: ViewContainerRef,
-    // svgTarget: TemplateRef<any>,
-    startCoo?: Coordinates,
-    Endcoo?: Coordinates
+    startCoo: Coordinates,
+    endCoo: Coordinates
   ) {
-    this.generateSelectedShapeComponent();
-    this.actualComponent = svgTarget.createComponent(
-      this.chosenComponentFactory
-    );
-    // this.actualComponent = svgTarget.createEmbeddedView(
-    //   this.createComponent().shapeViewRef
-    // );
+    if (this.componentUnderDrawing) {
+      this.drownComponents.pop();
+    } else {
+      this.componentUnderDrawing = this.createComponent(selectedShape);
+    }
+    this.componentUnderDrawing.updateCoordinates(startCoo, endCoo);
+    this.drownComponents.push(this.componentUnderDrawing);
+    this.redrawBoard(svgTarget);
   }
 
-  createComponent() {
-    return new LineComponent();
+  stopDrawing(): void {
+    this.drownComponents;
+
+    this.componentUnderDrawing = null;
   }
 
-  private generateSelectedShapeComponent() {
-    this.chosenComponentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      LineComponent
+  private redrawBoard(svgBoard: ViewContainerRef): void {
+    svgBoard.clear();
+    this.drownComponents.forEach((comp) => {
+      svgBoard.createEmbeddedView(comp.shapeViewRef);
+    });
+  }
+
+  private createComponent(selectedShape: ShapeType): ShapeComponentType {
+    const factory = this.componentFactoryResolver.resolveComponentFactory(
+      this.shapeToComponentConverter(selectedShape)
     );
+    const comp = factory.create(Injector.create([])).instance;
+    // comp.componentId = this.idGenerator(comp); // da finire
+    return comp;
+  }
+
+  private idGenerator(component: ShapeComponentType): string {
+    const random = Math.floor(Math.random() * 100).toString();
+    return component.type + random;
+  }
+
+  private shapeToComponentConverter(
+    type: ShapeType
+  ): ComponentType<ShapeComponentType> {
+    switch (type) {
+      case 'Line':
+        return LineComponent;
+      default:
+        return null;
+    }
   }
 }

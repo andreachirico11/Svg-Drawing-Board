@@ -13,7 +13,7 @@ import {
   ViewRef,
 } from '@angular/core';
 import { DrawerService } from 'src/app/services/drawerService/drawer.service';
-import { LineComponent } from '../shapes/line/line.component';
+import { Coordinates } from 'src/app/ultils/coordinates';
 
 @Component({
   selector: 'app-draw-board',
@@ -26,18 +26,11 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   fill = 'blue';
   viewPort: string;
   board: SVGGraphicsElement;
-  startPointX: number;
-  startPointY: number;
-  endPointX: number;
-  endPointY: number;
+  startCoordinates: Coordinates;
+  endCoordinates: Coordinates;
   mouseEvents = ['mousedown', 'mousemove', 'mouseup'];
   drawStarted = false;
   eventsSubs = [];
-
-  ngComponentToOutlet = null;
-
-  // @ViewChild('newSvgAppendRef', { read: TemplateRef })
-  // innerSvgViewContRef: TemplateRef<any>;
 
   @ViewChild('newSvgAppendRef', { read: ViewContainerRef })
   innerSvgViewContRef: ViewContainerRef;
@@ -65,10 +58,6 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
         this.endDrag(ev)
       ),
     ];
-
-    console.log(new LineComponent().shapeViewRef);
-    // this.ngComponentToOutlet = LineComponent.shapeViewRef;
-    this.drawService.drawComponent(this.innerSvgViewContRef);
   }
 
   ngOnDestroy() {
@@ -82,40 +71,37 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   startDrag(event: MouseEvent) {
-    console.warn('start');
     const realCoordinates = this.getMousePosition(event);
     if (!realCoordinates) {
       alert('Bad Starting Point');
       return;
     }
     this.drawStarted = true;
-    this.startPointX = realCoordinates.x;
-    this.startPointY = realCoordinates.y;
+    this.startCoordinates = new Coordinates(
+      realCoordinates.x,
+      realCoordinates.y
+    );
   }
 
   drag(event: MouseEvent) {
     if (this.drawStarted) {
-      console.warn('drag');
       let { x, y } = this.getMousePosition(event);
-      this.endPointX = x;
-      this.endPointY = y;
+      this.endCoordinates = new Coordinates(x, y);
+      this.drawService.drawComponent(
+        'Line',
+        this.innerSvgViewContRef,
+        this.startCoordinates,
+        this.endCoordinates
+      );
     }
   }
 
   endDrag(event: MouseEvent) {
-    if (this.drawStarted) {
-      console.warn('end');
-      this.drawStarted = false;
-      let { x, y } = this.getMousePosition(event);
-      this.endPointX = x;
-      this.endPointY = y;
-    }
-    // più roba per completare
+    this.drawService.stopDrawing();
+    this.drawStarted = false;
   }
 
   getMousePosition(event: MouseEvent) {
-    console.log(event);
-
     let ctm = (event.target as SVGGraphicsElement).getScreenCTM();
     if (ctm) {
       return {

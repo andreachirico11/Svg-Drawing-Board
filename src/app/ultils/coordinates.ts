@@ -1,3 +1,3 @@
 export class Coordinates {
-  constructor(private x: number, private y: number) {}
+  constructor(public x: number, public y: number) {}
 }
