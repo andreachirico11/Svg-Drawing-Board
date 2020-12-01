@@ -6,13 +6,6 @@ export class ReadyLink {
     this._anchor.href = href;
     this._anchor.style.display = 'none';
   }
-  // constructor(private href: string, private fileName = 'defaultName') {
-  //   const temp = document.createElement('a');
-  //   temp.download = fileName;
-  //   temp.href = href;
-  //   temp.style.display = 'none';
-  //   this._anchor = temp;
-  // }
   public get anchor(): HTMLAnchorElement {
     return this._anchor;
   }

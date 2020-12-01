@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImgFileType } from '../ultils/fileType';
+import { ImgFileType } from 'src/app/ultils/fileType';
 
 @Component({
   selector: 'app-mat-dialog',

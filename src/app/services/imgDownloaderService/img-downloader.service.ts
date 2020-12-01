@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ImgFileType } from '../ultils/fileType';
+import { ImgFileType } from 'src/app/ultils/fileType';
 import { ReadyLink } from './readyLink';
 
 @Injectable({
@@ -14,6 +14,10 @@ export class ImgDownloaderService {
     fileType: ImgFileType = 'png',
     filename: string
   ): Promise<ReadyLink> {
+    svg;
+    svg.firstChild.textContent =
+      '<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />';
+
     const { width, height } = this.extractSvgDimension(svg);
     const src = this.actualUrl.createObjectURL(this.blobCreator(svg));
     try {
@@ -29,18 +33,6 @@ export class ImgDownloaderService {
       }
       return null;
     }
-    // return this.imgLoader(src)
-    //   .then((loadedImg) => {
-    //     const canvas = this.canvasCreator(loadedImg, width, height);
-    //     const canvasDataUrl = this.canvasToDataUrl(canvas, fileType);
-    //     return new ReadyLink(canvasDataUrl, filename);
-    //   })
-    //   .catch((err) => {
-    //     if ((err.type = this.imageLoadError)) {
-    //       alert(this.imageLoadError);
-    //     }
-    //     return null;
-    //   });
   }
 
   imgLoader(src: string): Promise<HTMLImageElement> {

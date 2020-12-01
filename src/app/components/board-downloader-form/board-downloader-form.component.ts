@@ -4,10 +4,10 @@ import {
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ImgDownloaderService } from 'src/app/imgDownloaderService/img-downloader.service';
-import { ReadyLink } from 'src/app/imgDownloaderService/readyLink';
-import { MatDialogComponent } from 'src/app/mat-dialog/mat-dialog.component';
+import { ImgDownloaderService } from 'src/app/services/imgDownloaderService/img-downloader.service';
+import { ReadyLink } from 'src/app/services/imgDownloaderService/readyLink';
 import { ImgFileType, imgFileValues } from 'src/app/ultils/fileType';
+import { MatDialogComponent } from '../mat-dialog/mat-dialog.component';
 
 @Component({
   selector: 'app-board-downloader-form',
@@ -16,6 +16,7 @@ import { ImgFileType, imgFileValues } from 'src/app/ultils/fileType';
 })
 export class BoardDownloaderFormComponent implements OnInit {
   @Input() drawingBoard: ElementRef;
+  @Input() boardReady = false;
 
   public formats = [...imgFileValues];
   public chosenFormat: ImgFileType;
@@ -31,7 +32,17 @@ export class BoardDownloaderFormComponent implements OnInit {
     private imgDownloaderService: ImgDownloaderService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    /////////////////////////////////testing
+    // setTimeout(() => {
+    //   this.chosenFormat = 'png';
+    //   this.extractImg();
+    //   setTimeout(() => {
+    //     this.readyLinkObj.download();
+    //   }, 100);
+    // }, 150);
+    ///////////////////////////////
+  }
 
   openDialog() {
     this.dialogConfig.data = this.chosenFormat;

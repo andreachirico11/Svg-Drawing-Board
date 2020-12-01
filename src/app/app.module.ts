@@ -1,19 +1,17 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { CatSvgComponent } from './cat-svg/cat-svg.component';
-import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
-import { SvgTestComponent } from './svg-test-component/svg-test.component';
+import { CatSvgComponent } from './components/cat-svg/cat-svg.component';
+import { MatDialogComponent } from './components/mat-dialog/mat-dialog.component';
+import { SvgTestComponent } from './components/svg-test-component/svg-test.component';
+import { DrawBoardComponent } from './components/draw-board/draw-board.component';
+import { BoardLauncherFormComponent } from './components/board-launcher-form/board-launcher-form.component';
 import { BoardDownloaderFormComponent } from './components/board-downloader-form/board-downloader-form.component';
+import { ShapesModule } from './components/shapes/shapes.module';
+import { CommonsModule } from './commons.module';
+import { LineComponent } from './components/shapes/line/line.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -21,20 +19,13 @@ import { BoardDownloaderFormComponent } from './components/board-downloader-form
     CatSvgComponent,
     MatDialogComponent,
     SvgTestComponent,
+    DrawBoardComponent,
+    BoardLauncherFormComponent,
     BoardDownloaderFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatDialogModule,
-  ],
-  providers: [],
-  entryComponents: [MatDialogComponent],
+  imports: [CommonModule, CommonsModule, ShapesModule],
+  providers: [], // spostarlo nell'entry del suo modulo
+  entryComponents: [MatDialogComponent, LineComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

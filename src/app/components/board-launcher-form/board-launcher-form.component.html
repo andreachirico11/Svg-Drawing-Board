@@ -1,0 +1,28 @@
+<div class="board-launcher-container main-shadow">
+  <h3 class="board-launcher-container-title">Create New Board</h3>
+  <div class="board-launcher-slider">
+    <label for="widthSl">Width</label>
+    <mat-slider
+      id="widthSl"
+      [max]="widthMax"
+      [min]="min"
+      [step]="step"
+      [(ngModel)]="widthSliderVal"
+    >
+    </mat-slider>
+    <span>{{ widthSliderVal }}</span>
+  </div>
+  <div class="board-launcher-slider">
+    <label for="heigthSl">Height</label>
+    <mat-slider
+      id="heigthSl"
+      [max]="heightMax"
+      [min]="min"
+      [step]="step"
+      [(ngModel)]="heightSliderVal"
+    >
+    </mat-slider>
+    <span>{{ heightSliderVal }}</span>
+  </div>
+  <button mat-button (click)="addNew()">Add New</button>
+</div>

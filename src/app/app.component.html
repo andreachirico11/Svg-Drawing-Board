@@ -2,8 +2,15 @@
   <span>SVG drawer</span>
   <app-board-downloader-form
     [drawingBoard]="drawingBoard"
+    [boardReady]="boardReady"
   ></app-board-downloader-form>
 </mat-toolbar>
 <div #svgDrawingBoard class="svg-drawing-board">
-  <svg-test></svg-test>
+  <!-- <svg-test></svg-test> -->
+  <!-- <button *ngIf="!boardReady" (click)="addNewBoard()">Create New</button> -->
+  <ng-template #viewReference></ng-template>
+  <app-board-launcher-form
+    *ngIf="!boardReady"
+    (addNewEvent)="addNewBoard($event)"
+  ></app-board-launcher-form>
 </div>
