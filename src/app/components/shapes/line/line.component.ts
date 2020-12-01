@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Coordinates } from 'src/app/ultils/coordinates';
 import { ShapeType } from 'src/app/ultils/shapeType';
 

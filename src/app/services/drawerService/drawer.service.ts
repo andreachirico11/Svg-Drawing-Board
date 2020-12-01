@@ -5,7 +5,6 @@ import {
   Injector,
   ViewContainerRef,
 } from '@angular/core';
-import { start } from 'repl';
 import { LineComponent } from 'src/app/components/shapes/line/line.component';
 import { ShapeComponentType } from 'src/app/components/shapes/shapeComponents';
 import { Coordinates } from 'src/app/ultils/coordinates';
@@ -18,7 +17,10 @@ export class DrawerService {
   private drownComponents: ShapeComponentType[] = [];
   private componentUnderDrawing: ShapeComponentType = null;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector
+  ) {}
 
   public drawComponent(
     selectedShape: ShapeType,
@@ -36,7 +38,7 @@ export class DrawerService {
     this.redrawBoard(svgTarget);
   }
 
-  stopDrawing(): void {
+  public stopDrawing(): void {
     this.drownComponents;
 
     this.componentUnderDrawing = null;
@@ -53,8 +55,7 @@ export class DrawerService {
     const factory = this.componentFactoryResolver.resolveComponentFactory(
       this.shapeToComponentConverter(selectedShape)
     );
-    const comp = factory.create(Injector.create([])).instance;
-    // comp.componentId = this.idGenerator(comp); // da finire
+    const comp = factory.create(this.injector).instance;
     return comp;
   }
 
