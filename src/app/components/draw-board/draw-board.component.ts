@@ -9,22 +9,22 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { DrawerService } from 'src/app/services/drawerService/drawer.service';
+import { Svg, SVG, SvgType } from '@svgdotjs/svg.js';
 import { SvgDrawerService } from 'src/app/services/svgDotJsDrawerService/svgDrawer.service';
+import { shapes } from 'src/app/services/svgDotJsDrawerService/svgFigures.type';
 import { SvgCoordinates } from 'src/app/ultils/coordinates';
 
 @Component({
   selector: 'app-draw-board',
   templateUrl: './draw-board.component.html',
   styleUrls: ['./draw-board.component.scss'],
-  providers: [{ provide: DrawerService, useClass: SvgDrawerService }],
+  providers: [SvgDrawerService],
 })
 export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() width: number = 600;
   @Input() height: number = 600;
-  fill = 'blue';
   viewPort: string;
-  board: SVGGraphicsElement;
+  board: Svg;
   startCoordinates: SvgCoordinates;
   endCoordinates: SvgCoordinates;
   mouseEvents = ['mousedown', 'mousemove', 'mouseup'];
@@ -37,39 +37,47 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private container: ElementRef,
     private renderer: Renderer2,
-    private drawService: DrawerService
+    private drawService: SvgDrawerService
   ) {}
 
   ngOnInit(): void {
     this.calcolateViewPort();
-    this.board = this.container.nativeElement.firstChild;
+    this.board = SVG<Svg>(this.container.nativeElement.firstChild) as Svg;
+
+    // configuro il service er disegnare linee
+    this.drawService.selectedShape = shapes.line;
   }
 
   ngAfterViewInit() {
-    this.eventsSubs = [
-      this.renderer.listen(this.board, this.mouseEvents[0], (ev) =>
-        this.startDrag(ev)
-      ),
-      this.renderer.listen(this.board, this.mouseEvents[1], (ev) =>
-        this.drag(ev)
-      ),
-      this.renderer.listen(this.board, this.mouseEvents[2], (ev) =>
-        this.endDrag(ev)
-      ),
-    ];
+    // this.eventsSubs = [
+
+    //   // this.renderer.listen(this.board, this.mouseEvents[0], (ev) =>
+    //   //   this.startDrag(ev)
+    //   // ),
+    //   // this.renderer.listen(this.board, this.mouseEvents[1], (ev) =>
+    //   //   this.drag(ev)
+    //   // ),
+    //   // this.renderer.listen(this.board, this.mouseEvents[2], (ev) =>
+    //   //   this.endDrag(ev)
+    //   // ),
+
+    // ];
+    this.board.on(this.mouseEvents[0], (ev) => this.startDrag(ev));
+    this.board.on(this.mouseEvents[1], (ev) => this.drag(ev));
+    this.board.on(this.mouseEvents[2], (ev) => this.endDrag(ev));
   }
 
   ngOnDestroy() {
-    if (this.eventsSubs.length > 0) {
-      this.eventsSubs.forEach((sub) => sub());
-    }
+    // if (this.eventsSubs.length > 0) {
+    //   this.eventsSubs.forEach((sub) => sub());
+    // }
   }
 
-  calcolateViewPort() {
+  private calcolateViewPort() {
     this.viewPort = `0 0 ${this.width} ${this.height}`;
   }
 
-  startDrag(event: MouseEvent) {
+  private startDrag(event: MouseEvent) {
     const realCoordinates = this.getMousePosition(event);
     if (!realCoordinates) {
       alert('Bad Starting Point');
@@ -82,25 +90,23 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  drag(event: MouseEvent) {
+  private drag(event: MouseEvent) {
     if (this.drawStarted) {
       let { x, y } = this.getMousePosition(event);
       this.endCoordinates = new SvgCoordinates(x, y);
-      this.drawService.drawComponent(
-        'Line',
-        this.innerSvgViewContRef,
-        this.startCoordinates,
-        this.endCoordinates
+      // crea e aggiungi linea
+      this.board.add(
+        this.drawService.createShape(this.startCoordinates, this.endCoordinates)
       );
     }
   }
 
-  endDrag(event: MouseEvent) {
-    this.drawService.stopDrawing();
+  private endDrag(event: MouseEvent) {
+    // this.drawService.stopDrawing();
     this.drawStarted = false;
   }
 
-  getMousePosition(event: MouseEvent) {
+  private getMousePosition(event: MouseEvent) {
     let ctm = (event.target as SVGGraphicsElement).getScreenCTM();
     if (ctm) {
       return {
