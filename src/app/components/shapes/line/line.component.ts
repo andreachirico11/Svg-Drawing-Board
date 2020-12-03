@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Coordinates } from 'src/app/ultils/coordinates';
+import { SvgCoordinates } from 'src/app/ultils/coordinates';
 import { ShapeType } from 'src/app/ultils/shapeType';
 
 @Component({
@@ -25,7 +25,7 @@ export class LineComponent implements OnInit {
     }
   }
 
-  updateCoordinates(startCoo: Coordinates, endCoo: Coordinates): void {
+  updateCoordinates(startCoo: SvgCoordinates, endCoo: SvgCoordinates): void {
     this.x1 = startCoo.x;
     this.y1 = startCoo.y;
     this.x2 = endCoo.x;

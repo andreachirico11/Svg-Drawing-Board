@@ -7,12 +7,10 @@ import {
 } from '@angular/core';
 import { LineComponent } from 'src/app/components/shapes/line/line.component';
 import { ShapeComponentType } from 'src/app/components/shapes/shapeComponents';
-import { Coordinates } from 'src/app/ultils/coordinates';
+import { SvgCoordinates } from 'src/app/ultils/coordinates';
 import { ShapeType } from 'src/app/ultils/shapeType';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DrawerService {
   private drownComponents: ShapeComponentType[] = [];
   private componentUnderDrawing: ShapeComponentType = null;
@@ -25,8 +23,8 @@ export class DrawerService {
   public drawComponent(
     selectedShape: ShapeType,
     svgTarget: ViewContainerRef,
-    startCoo: Coordinates,
-    endCoo: Coordinates
+    startCoo: SvgCoordinates,
+    endCoo: SvgCoordinates
   ) {
     if (this.componentUnderDrawing) {
       this.drownComponents.pop();

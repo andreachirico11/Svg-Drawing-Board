@@ -1,4 +1,3 @@
-import { Template } from '@angular/compiler/src/render3/r3_ast';
 import {
   AfterViewInit,
   Component,
@@ -7,18 +6,18 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  TemplateRef,
   ViewChild,
   ViewContainerRef,
-  ViewRef,
 } from '@angular/core';
 import { DrawerService } from 'src/app/services/drawerService/drawer.service';
-import { Coordinates } from 'src/app/ultils/coordinates';
+import { SvgDrawerService } from 'src/app/services/svgDotJsDrawerService/svgDrawer.service';
+import { SvgCoordinates } from 'src/app/ultils/coordinates';
 
 @Component({
   selector: 'app-draw-board',
   templateUrl: './draw-board.component.html',
   styleUrls: ['./draw-board.component.scss'],
+  providers: [{ provide: DrawerService, useClass: SvgDrawerService }],
 })
 export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() width: number = 600;
@@ -26,8 +25,8 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   fill = 'blue';
   viewPort: string;
   board: SVGGraphicsElement;
-  startCoordinates: Coordinates;
-  endCoordinates: Coordinates;
+  startCoordinates: SvgCoordinates;
+  endCoordinates: SvgCoordinates;
   mouseEvents = ['mousedown', 'mousemove', 'mouseup'];
   drawStarted = false;
   eventsSubs = [];
@@ -77,7 +76,7 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.drawStarted = true;
-    this.startCoordinates = new Coordinates(
+    this.startCoordinates = new SvgCoordinates(
       realCoordinates.x,
       realCoordinates.y
     );
@@ -86,7 +85,7 @@ export class DrawBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   drag(event: MouseEvent) {
     if (this.drawStarted) {
       let { x, y } = this.getMousePosition(event);
-      this.endCoordinates = new Coordinates(x, y);
+      this.endCoordinates = new SvgCoordinates(x, y);
       this.drawService.drawComponent(
         'Line',
         this.innerSvgViewContRef,
