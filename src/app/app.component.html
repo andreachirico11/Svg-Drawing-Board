@@ -6,8 +6,6 @@
   ></app-board-downloader-form>
 </mat-toolbar>
 <div #svgDrawingBoard class="svg-drawing-board">
-  <!-- <svg-test></svg-test> -->
-  <!-- <button *ngIf="!boardReady" (click)="addNewBoard()">Create New</button> -->
   <ng-template #viewReference></ng-template>
   <app-board-launcher-form
     *ngIf="!boardReady"
