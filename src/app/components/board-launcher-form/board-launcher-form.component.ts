@@ -35,11 +35,11 @@ export class BoardLauncherFormComponent implements OnInit {
     this.heightSliderVal = this.min;
 
     ////////////////testing
-    setTimeout(() => {
-      this.widthSliderVal = 500;
-      this.heightSliderVal = 500;
-      this.addNew();
-    }, 100);
+    // setTimeout(() => {
+    //   this.widthSliderVal = 500;
+    //   this.heightSliderVal = 500;
+    //   this.addNew();
+    // }, 100);
     /////////////
   }
 
