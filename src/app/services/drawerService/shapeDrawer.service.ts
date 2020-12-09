@@ -59,7 +59,8 @@ export class ShapeDrawerService {
       .stroke({ width: 5, color: 'red' });
   }
   private lineUpdater(newCoo: SvgCoordinates, oldLine: Line): Line {
-    oldLine.plot(oldLine.x(), oldLine.y(), newCoo.x, newCoo.y);
+    const [x, y] = oldLine.plot()[0];
+    oldLine.plot(x, y, newCoo.x, newCoo.y);
     return oldLine;
   }
   //

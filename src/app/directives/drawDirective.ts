@@ -50,7 +50,7 @@ export class DrawDirective implements OnInit, AfterViewInit {
   private drag(event: MouseEvent) {
     if (this.drawStarted) {
       let shapeToUpdate = this.board.findOne(
-        this.boardStateService.getShapeUnderEditID
+        '#' + this.boardStateService.getShapeUnderEditID()
       ) as shapeTypes;
       const updatedShape = this.boardStateService.updateShape(
         event,
@@ -63,11 +63,19 @@ export class DrawDirective implements OnInit, AfterViewInit {
   @HostListener('mouseup', ['$event'])
   private end(event: MouseEvent) {
     this.drag(event);
-    this.boardStateService.stopeEditing();
+    this.boardStateService.stopEditing();
     this.drawStarted = false;
   }
-
-  private getShapeById(id: string): shapeTypes {
-    return SVG(id) as shapeTypes;
+  @HostListener('mouseleave')
+  private out() {
+    if (this.drawStarted) {
+      this.boardStateService.stopEditing();
+      this.drawStarted = false;
+    }
   }
+
+  /**
+   *
+   *
+   */
 }

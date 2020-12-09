@@ -9,7 +9,7 @@ export class BoardStateService {
     this._shapeSelected = newS;
   }
   private _shapeUnderEditID = '';
-  get getShapeUnderEditID() {
+  getShapeUnderEditID() {
     return this._shapeUnderEditID || '';
   }
   /**
@@ -33,7 +33,7 @@ export class BoardStateService {
       oldShape
     );
   }
-  public stopeEditing(): void {
+  public stopEditing(): void {
     this._shapeUnderEditID = '';
   }
 

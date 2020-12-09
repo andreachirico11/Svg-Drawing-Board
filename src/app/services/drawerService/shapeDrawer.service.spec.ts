@@ -28,7 +28,7 @@ describe('drawerService', () => {
     })
   );
 
-  fit(
+  it(
     'can update a line correctly',
     waitForAsync(() => {
       const board = SVG().width(100).height(100);
