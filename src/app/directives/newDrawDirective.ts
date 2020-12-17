@@ -73,12 +73,14 @@ export class DrawDirective implements OnInit, AfterViewInit {
 
   @HostListener('mouseleave')
   private out() {
-    let finishedPoly = this.board.findOne(
-      '#' + this.boardStateService.getShapeUnderEditID()
-    ) as Polyline;
-    this.board.add(this.boardStateService.stopAndCreate(finishedPoly));
-    finishedPoly.remove();
-    this.drawStarted = false;
+    if (this.drawStarted) {
+      let finishedPoly = this.board.findOne(
+        '#' + this.boardStateService.getShapeUnderEditID()
+      ) as Polyline;
+      this.board.add(this.boardStateService.stopAndCreate(finishedPoly));
+      finishedPoly.remove();
+      this.drawStarted = false;
+    }
   }
 
   /**

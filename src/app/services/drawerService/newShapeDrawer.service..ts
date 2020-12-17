@@ -7,13 +7,7 @@ export class ShapeDrawerService {
 
   public startCollector(startEvent: MouseEvent): Polyline {
     const start = this.getRealMousePosition(startEvent);
-    return new Polyline()
-      .plot([
-        [start.x, start.y],
-        [start.x, start.y],
-      ])
-      .stroke({ width: 5, color: 'red' })
-      .fill('none');
+    return this.polylineCreator(new PointArray([start.x, start.y]));
   }
 
   public updateCollector(startEvent: MouseEvent, oldLine: Polyline): Polyline {
@@ -37,10 +31,11 @@ export class ShapeDrawerService {
       case shapes.rect:
         break;
       case shapes.line:
+        this.shapeCreator = this.lineCreator;
         break;
       case shapes.polyline:
       default:
-        this.shapeCreator = (pointArr) => new Polyline().plot(pointArr);
+        this.shapeCreator = this.polylineCreator;
         break;
     }
   }
@@ -57,17 +52,30 @@ export class ShapeDrawerService {
   }
 
   // LINE
-  private lineCreator(start: SvgCoordinates): Line {
+  // private lineCreator(start: SvgCoordinates): Line {
+  //   return new Line()
+  //     .plot(start.x, start.y, start.x, start.y)
+  //     .stroke({ width: 5, color: 'red' });
+  // }
+  // private lineUpdater(newCoo: SvgCoordinates, oldLine: Line): Line {
+  //   const [x, y] = oldLine.plot()[0];
+  //   oldLine.plot(x, y, newCoo.x, newCoo.y);
+  //   return oldLine;
+  // }
+  private lineCreator(pointArr: PointArray): Line {
     return new Line()
-      .plot(start.x, start.y, start.x, start.y)
+      .plot(...pointArr[0], ...pointArr[pointArr.length - 1])
       .stroke({ width: 5, color: 'red' });
   }
-  private lineUpdater(newCoo: SvgCoordinates, oldLine: Line): Line {
-    const [x, y] = oldLine.plot()[0];
-    oldLine.plot(x, y, newCoo.x, newCoo.y);
-    return oldLine;
-  }
   //
+
+  //POLYLINE
+  private polylineCreator(pointArr: PointArray): Polyline {
+    return new Polyline()
+      .plot(pointArr)
+      .stroke({ width: 5, color: 'red' })
+      .fill('none');
+  }
 
   // // PATH
   // private pathCreator(start: SvgCoordinates): Path {

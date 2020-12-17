@@ -16,12 +16,13 @@ export class DrawBoardComponent implements OnInit {
   @Input() height: number = 600;
   viewPort: string;
 
-  constructor(private boardStateServce: BoardStateService) {}
+  constructor(private boardStateService: BoardStateService) {}
 
   ngOnInit(): void {
     this.calcolateViewPort();
     // finchè c'è solo la line
-    this.boardStateServce.shapeSelector = shapes.polyline;
+    // this.boardStateServce.shapeSelector = shapes.polyline;
+    this.boardStateService.shapeSelector = shapes.line;
   }
 
   private calcolateViewPort() {

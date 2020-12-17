@@ -28,8 +28,10 @@ export class BoardStateService {
     return this.shapeDrawerService.updateCollector(event, old);
   }
   public stopAndCreate(old: Polyline): shapeTypes {
+    const newS = this.shapeDrawerService.createShape(this._shapeSelected, old);
+    newS.id(this._shapeUnderEditID);
     this._shapeUnderEditID = '';
-    return this.shapeDrawerService.createShape(this._shapeSelected, old);
+    return newS;
   }
 
   private shapeIdGenerator(shape: shapes): string {
