@@ -66,6 +66,7 @@ export class DrawDirective implements OnInit, AfterViewInit {
     this.boardStateService.stopEditing();
     this.drawStarted = false;
   }
+
   @HostListener('mouseleave')
   private out() {
     if (this.drawStarted) {
