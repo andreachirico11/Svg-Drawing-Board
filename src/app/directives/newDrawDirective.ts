@@ -5,9 +5,8 @@ import {
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { Rect, SVG, Svg } from '@svgdotjs/svg.js';
-import { BoardStateService } from '../services/boardStateService/boardStateService';
-import { shapeTypes } from '../ultils/svgFigures.type';
+import { Polyline, Rect, SVG, Svg } from '@svgdotjs/svg.js';
+import { BoardStateService } from '../services/boardStateService/newBoardStateService ';
 
 @Directive({
   selector: '[drawDirective]',
@@ -41,7 +40,7 @@ export class DrawDirective implements OnInit, AfterViewInit {
   @HostListener('mousedown', ['$event'])
   private start(event: MouseEvent) {
     this.drawStarted = true;
-    const newS = this.boardStateService.addShape(event);
+    const newS = this.boardStateService.startTrace(event);
     this.board.add(newS);
   }
 
@@ -50,8 +49,8 @@ export class DrawDirective implements OnInit, AfterViewInit {
     if (this.drawStarted) {
       let shapeToUpdate = this.board.findOne(
         '#' + this.boardStateService.getShapeUnderEditID()
-      ) as shapeTypes;
-      const updatedShape = this.boardStateService.updateShape(
+      ) as Polyline;
+      const updatedShape = this.boardStateService.updateTrace(
         event,
         shapeToUpdate
       );
@@ -62,16 +61,24 @@ export class DrawDirective implements OnInit, AfterViewInit {
   @HostListener('mouseup', ['$event'])
   private end(event: MouseEvent) {
     this.drag(event);
-    this.boardStateService.stopEditing();
-    this.drawStarted = false;
+    this.out();
   }
+
+  // @HostListener('mouseup', ['$event'])
+  // private end(event: MouseEvent) {
+  //   this.drag(event);
+  //   this.boardStateService.stopEditing();
+  //   this.drawStarted = false;
+  // }
 
   @HostListener('mouseleave')
   private out() {
-    if (this.drawStarted) {
-      this.boardStateService.stopEditing();
-      this.drawStarted = false;
-    }
+    let finishedPoly = this.board.findOne(
+      '#' + this.boardStateService.getShapeUnderEditID()
+    ) as Polyline;
+    this.board.add(this.boardStateService.stopAndCreate(finishedPoly));
+    finishedPoly.remove();
+    this.drawStarted = false;
   }
 
   /**

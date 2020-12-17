@@ -15,4 +15,4 @@ const modules = [
   imports: modules,
   exports: modules,
 })
-export class CommonsModule {}
+export class MyCommsModule {}

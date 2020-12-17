@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Circle, Svg } from '@svgdotjs/svg.js';
-import { CommonsModule } from '../commons.module';
+import { MyCommsModule } from '../mycomms.module';
 import { BoardStateService } from '../services/boardStateService/boardStateService';
 import { DrawDirective } from './drawDirective';
 
@@ -43,7 +43,7 @@ describe('drawDirective', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TestHostComponent, DrawDirective],
-        providers: [CommonsModule, BoardStateService],
+        providers: [MyCommsModule, BoardStateService],
       })
         .compileComponents()
         .then(() => {

@@ -35,11 +35,7 @@ export class BoardLauncherFormComponent implements OnInit {
     this.heightSliderVal = this.min;
 
     ////////////////testing
-    // setTimeout(() => {
-    //   this.widthSliderVal = 500;
-    //   this.heightSliderVal = 500;
-    //   this.addNew();
-    // }, 100);
+    this.autoLaunchForTesting();
     /////////////
   }
 
@@ -53,5 +49,13 @@ export class BoardLauncherFormComponent implements OnInit {
       width: this.widthSliderVal,
       height: this.heightSliderVal,
     });
+  }
+
+  private autoLaunchForTesting() {
+    setTimeout(() => {
+      this.widthSliderVal = 500;
+      this.heightSliderVal = 500;
+      this.addNew();
+    }, 100);
   }
 }

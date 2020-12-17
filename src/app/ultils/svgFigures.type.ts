@@ -1,6 +1,6 @@
-import { Circle, Ellipse, Line, Path, Rect } from '@svgdotjs/svg.js';
+import { Circle, Ellipse, Line, Path, Polyline, Rect } from '@svgdotjs/svg.js';
 
-export type shapeTypes = Line | Path | Circle | Ellipse | Rect;
+export type shapeTypes = Line | Path | Circle | Ellipse | Rect | Polyline;
 
 export enum shapes {
   'line' = 'line',
@@ -8,4 +8,5 @@ export enum shapes {
   'circle' = 'circle',
   'ellipse' = 'ellipse',
   'rect' = 'rect',
+  'polyline' = 'polyline',
 }
