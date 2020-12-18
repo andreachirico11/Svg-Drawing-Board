@@ -1,1 +1,1 @@
-export type ShapeType = 'Line' | 'Path' | 'Ellipsis';
+export type ShapeType = 'Line' | 'Path' | 'Polyline';

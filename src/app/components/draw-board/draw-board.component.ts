@@ -22,7 +22,7 @@ export class DrawBoardComponent implements OnInit {
     this.calcolateViewPort();
     // finchè c'è solo la line
     // this.boardStateServce.shapeSelector = shapes.polyline;
-    this.boardStateService.shapeSelector = shapes.line;
+    this.boardStateService.shapeSelector = shapes.path;
   }
 
   private calcolateViewPort() {
