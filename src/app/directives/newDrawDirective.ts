@@ -72,6 +72,8 @@ export class DrawDirective implements OnInit, AfterViewInit {
       ) as Polyline;
       this.board.add(this.boardStateService.stopAndCreate(finishedPoly));
       finishedPoly.remove();
+      this.board.add(finishedPoly);
+
       this.drawStarted = false;
     }
   }

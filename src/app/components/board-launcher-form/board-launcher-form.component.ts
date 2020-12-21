@@ -35,7 +35,7 @@ export class BoardLauncherFormComponent implements OnInit {
     this.heightSliderVal = this.min;
 
     ////////////////testing
-    this.autoLaunchForTesting();
+    // this.autoLaunchForTesting();
     /////////////
   }
 
